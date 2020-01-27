@@ -22,26 +22,30 @@
     var map = new Datamap({
         element: document.getElementById('container'),
         fills: {
-            HIGH: '#afafaf',
+            HIGH: '#de3421',
             LOW: '#123456',
             MEDIUM: 'blue',
             UNKNOWN: 'rgb(0,0,0)',
             defaultFill: 'green'
         },
         data: {
-            IRL: {
-                fillKey: 'LOW',
-                numberOfThings: 2002
+            CHN: {
+                fillKey: 'HIGH',
+                numberOfThings: 300000
             },
             USA: {
                 fillKey: 'MEDIUM',
                 numberOfThings: 10381
+            },
+            FRA: {
+                fillKey: 'LOW',
+                numberOfThings: 3
             }
         },
         geographyConfig: {
             popupTemplate: function(geo, data) {
                 return ['<div class="hoverinfo"><strong>',
-                        'Number of things in ' + geo.properties.name,
+                        'Corona virus Cases Confirmed ' + geo.properties.name,
                         ': ' + data.numberOfThings,
                         '</strong></div>'].join('');
             }
