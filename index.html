@@ -7,43 +7,117 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
 </head>
+
+
 <body>
     
-    <h1 style="margin: 0; padding: 0; border: 0;">Tracking the 2020 Corona Virus</h1>
+    <h1 style="margin: 0; padding: 0; border: 0;">
+        Tracking the 2020 Corona Virus (Updated 1/28)</h1>
   
-    <div id="container" style="width: 800px; height: 500px; margin: 0; padding: 0; border: 0; "></div>
+    <div id="container" 
+    style="width: 100%; height: 75%;  display: block; position: absolute;  top: 10%;
+    bottom: 5%;
+    left: 0%;
+    right: 5%;"></div>
 
-
-    
+  
 
 <script src="https://d3js.org/d3.v3.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/datamaps/0.5.9/datamaps.world.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/datamaps/0.5.9/datamaps.all.hires.js"></script>
+
+
+
 </body>
 <script>
 
     var map = new Datamap({
         element: document.getElementById('container'),
         fills: {
-            HIGH: '#de3421',
-            LOW: '#123456',
-            MEDIUM: 'blue',
-            UNKNOWN: 'rgb(0,0,0)',
-            defaultFill: 'green'
+            HIGH: '#eb0f0c',
+            MEDIUM: '#29dfff',
+            LOW: '#ffeb96',
+            defaultFill: '#29a329'
         },
         data: {
             CHN: {
                 fillKey: 'HIGH',
-                numberOfThings: 300000
+                numberOfThings: 5.494,
             },
             USA: {
-                fillKey: 'MEDIUM',
-                numberOfThings: 10381
+                fillKey: 'LOW',
+                numberOfThings: 5
             },
             FRA: {
                 fillKey: 'LOW',
-                numberOfThings: 3
+                numberOfThings: 4
+            },
+            THA: {
+                fillKey: 'MEDIUM',
+                numberOfThings: 14
+            },
+            TWN: {
+                fillKey: 'LOW',
+                numberOfThings: 8
+            },
+            JPN: {
+                fillKey: 'LOW',
+                numberOfThings: 7
+            },
+            HKG: {
+                fillKey: 'LOW',
+                numberOfThings: 8
+            },
+            SGP: {
+                fillKey: 'LOW',
+                numberOfThings: 7
+            },
+            AUS: {
+                fillKey: 'LOW',
+                numberOfThings: 8
+            },
+            AUS: {
+                fillKey: 'LOW',
+                numberOfThings: 8
+            },
+            DEU: {
+                fillKey: 'LOW',
+                numberOfThings: 8
+            },
+            AUS: {
+                fillKey: 'LOW',
+                numberOfThings: 8
+            },
+            MYS: {
+                fillKey: 'LOW',
+                numberOfThings: 4
+            },
+            KOR: {
+                fillKey: 'LOW',
+                numberOfThings: 8
+            },
+            CAN: {
+                fillKey: 'LOW',
+                numberOfThings: 2
+            },
+            VNM: {
+                fillKey: 'LOW',
+                numberOfThings: 2
+            },
+            KHM: {
+                fillKey: 'LOW',
+                numberOfThings: 1
+            },
+            NPL: {
+                fillKey: 'LOW',
+                numberOfThings: 1
+            },
+            LKA: {
+                fillKey: 'LOW',
+                numberOfThings: 1
             }
+
+
         },
         geographyConfig: {
             popupTemplate: function(geo, data) {
