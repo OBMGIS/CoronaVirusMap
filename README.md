@@ -1,7 +1,4 @@
-Datamaps
-======
-
-[![Join the chat at https://gitter.im/markmarkoh/datamaps](https://badges.gitter.im/markmarkoh/datamaps.svg)](https://gitter.im/markmarkoh/datamaps?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+This map displays covid data in realtime using D3.js and Datamaps for a onepage solution! 
 
 #### Interactive maps for data visualizations. Bundled into a single Javascript file.
 
