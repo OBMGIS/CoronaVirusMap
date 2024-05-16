@@ -1,214 +1,77 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>COVID-19 Tracker</title>
 </head>
-
-
 <body>
-    
-    
-    <!-- next step add ocean color?  -->
-
     <h1 style="margin: 0; padding: 0; border: 0;">
-        Tracking the 2020 Corona Virus - Updated live version coming soon!</h1>
+        Tracking COVID-19 - Updated Live</h1>
     <h3 style="margin: 0; padding: 0; border: 0;">(Tip: Hover on top of a country to see the number of cases!)</h3>
   
     <div id="container" 
-    style="width: 100%; height: 75%;  display: block; position: absolute;  top: 14%;
-    bottom: 5%;
-    left: 0%;
-    right: 5%;"></div>
-
+         style="width: 100%; height: 75%;  display: block; position: absolute;  top: 14%;
+                bottom: 5%; left: 0%; right: 5%;"></div>
   
-
-<script src="https://d3js.org/d3.v3.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/datamaps/0.5.9/datamaps.all.hires.js"></script>
-
-
-
-</body>
-<script>
-
-    var map = new Datamap({
-        element: document.getElementById('container'),
-        fills: {
-            HIGH: '#eb0f0c',
-            MEDIUM: '#29dfff',
-            LOW: '#ffeb96',
-            defaultFill: '#29a329'
-        },
-        data: {
-            CHN: {
-                fillKey: 'HIGH',
-                numberOfThings: 80.778,
-            },
-            ITA: {
-                fillKey: 'HIGH',
-                numberOfThings: 10.149,
-            },
-            USA: {
-                fillKey: 'MEDIUM',
-                numberOfThings: 976
-            },
-            IRN: {
-                fillKey: 'HIGH',
-                numberOfThings: 8.042
-            },
-            FRA: { 
-                fillKey: 'HIGH',
-                numberOfThings: 1.784
-            },
-            THA: {
-                fillKey: 'LOW',
-                numberOfThings: 50
-            },
-            ESP: {
-                fillKey: 'HIGH',
-                numberOfThings: 1.695
-            },
-            TWN: {
-                fillKey: 'LOW',
-                numberOfThings: 8
-            },
-            JPN: {
-                fillKey: 'MEDIUM',
-                numberOfThings: 581
-            },
-            HKG: {
-                fillKey: 'LOW',
-                numberOfThings: 121
-            },
-            SGP: {
-                fillKey: 'LOW',
-                numberOfThings: 7
-            },
-            AUS: {
-                fillKey: 'LOW',
-                numberOfThings: 101
-            },
-            DEU: {
-                fillKey: 'HIGH',
-                numberOfThings: 1.565
-            },
-            AUT: {
-                fillKey: 'LOW',
-                numberOfThings: 182
-            },
-            MYS: {
-                fillKey: 'LOW',
-                numberOfThings: 129
-            },
-            KOR: {
-                fillKey: 'HIGH',
-                numberOfThings: 7.755
-            },
-            CAN: {
-                fillKey: 'LOW',
-                numberOfThings: 72
-            },
-            VNM: {
-                fillKey: 'LOW',
-                numberOfThings: 2
-            },
-            KHM: {
-                fillKey: 'LOW',
-                numberOfThings: 1
-            },
-            NPL: {
-                fillKey: 'LOW',
-                numberOfThings: 1
-            },
-            LKA: {
-                fillKey: 'LOW',
-                numberOfThings: 1
-            },
-            NLD: {
-                fillKey: 'LOW',
-                numberOfThings: 382
-            },
-            CHE: {
-                fillKey: 'LOW',
-                numberOfThings: 491
-            },
-            NOR: {
-                fillKey: 'LOW',
-                numberOfThings: 400 
-            },
-            GBR: {
-                fillKey: 'LOW',
-                numberOfThings: 326 
-            },
-            NOR: {
-                fillKey: 'LOW',
-                numberOfThings: 400 
-            },
-            SWE: {
-                fillKey: 'LOW',
-                numberOfThings: 326 
-            },
-            BEL: {
-                fillKey: 'LOW',
-                numberOfThings: 267
-            },
-            GRC: {
-                fillKey: 'LOW',
-                numberOfThings: 89
-            },
-            ISL: {
-                fillKey: 'LOW',
-                numberOfThings: 81
-            },
-            KWT: {
-                fillKey: 'LOW',
-                numberOfThings: 64
-            },
-            CZE: {
-                fillKey: 'LOW',
-                numberOfThings: 63
-            },
-            IRQ: {
-                fillKey: 'LOW',
-                numberOfThings: 60
-            },
-            ARE: {
-                fillKey: 'LOW',
-                numberOfThings: 59
-            },
-            EGY: {
-                fillKey: 'LOW',
-                numberOfThings: 55
-            },
-            IND: {
-                fillKey: 'LOW',
-                numberOfThings: 50
-            },
-            IND: {
-                fillKey: 'LOW',
-                numberOfThings: 50
-            }
-
-
-
-
-        },
-        geographyConfig: {
-            popupTemplate: function(geo, data) {
-                return ['<div class="hoverinfo"><strong>',
-                        'Corona virus Cases Confirmed in ' + geo.properties.name,
-                        ': ' + data.numberOfThings,
-                        '</strong></div>'].join('');
-            }
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/datamaps/0.5.9/datamaps.all.hires.js"></script>
+    <script>
+        // Function to fetch latest COVID-19 data
+        async function fetchCovidData() {
+            const response = await fetch('https://disease.sh/v3/covid-19/countries');
+            const data = await response.json();
+            return data;
         }
-    });
 
-    map.legend();
+        // Function to prepare data for Datamap
+        function prepareData(covidData) {
+            const data = {};
+            covidData.forEach(country => {
+                data[country.countryInfo.iso3] = {
+                    fillKey: getFillKey(country.cases),
+                    numberOfThings: country.cases
+                };
+            });
+            return data;
+        }
 
-</script>
+        // Function to determine fill color based on the number of cases
+        function getFillKey(cases) {
+            if (cases > 1000000) return 'HIGH';
+            if (cases > 100000) return 'MEDIUM';
+            return 'LOW';
+        }
 
+        // Function to initialize the Datamap
+        function initializeMap(data) {
+            new Datamap({
+                element: document.getElementById('container'),
+                fills: {
+                    HIGH: '#eb0f0c',
+                    MEDIUM: '#29dfff',
+                    LOW: '#ffeb96',
+                    defaultFill: '#29a329'
+                },
+                data: data,
+                geographyConfig: {
+                    popupTemplate: function(geo, data) {
+                        return ['<div class="hoverinfo"><strong>',
+                                'COVID-19 Cases in ' + geo.properties.name,
+                                ': ' + data.numberOfThings,
+                                '</strong></div>'].join('');
+                    }
+                }
+            });
+        }
+
+        // Fetch and display the COVID-19 data
+        fetchCovidData().then(covidData => {
+            const data = prepareData(covidData);
+            initializeMap(data);
+        });
+    </script>
+</body>
 </html>
