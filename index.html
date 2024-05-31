@@ -6,15 +6,19 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>COVID-19 Tracker</title>
     <style>
-        /* Add basic styling to enhance visibility */
-        body { margin: 0; font-family: Arial, sans-serif; }
-        #container { width: 100%; height: 90%; }
+        html, body {
+            height: 100%; /* Ensures that the full height is used */
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* Prevents scrolling which can sometimes interfere with layout */
+        }
+        #container {
+            width: 100%;
+            height: 100%; /* This will allow the container to expand fully within the body */
+        }
         .datamaps-subunit { /* Styling for countries */
             stroke: #FFF; /* White borders */
             stroke-width: 1px;
-        }
-        .datamaps-ocean { /* Custom class for ocean styling */
-            fill: #b0c4de; /* Light Steel Blue for oceans */
         }
     </style>
 </head>
@@ -56,7 +60,7 @@
                     HIGH: '#eb0f0c',
                     MEDIUM: '#29dfff',
                     LOW: '#ffeb96',
-                    defaultFill: '#29a329' // Changed for land
+                    defaultFill: '#29a329' // Assuming this is the land color
                 },
                 data: data,
                 geographyConfig: {
@@ -66,14 +70,15 @@
                                 ': ' + data.numberOfThings,
                                 '</strong></div>'].join('');
                     },
-                    highlightFillColor: '#fc8d59', // Optional: Color when mouse hovers
+                    highlightFillColor: '#fc8d59',
                     highlightBorderColor: 'rgba(250, 250, 250, 0.5)'
                 },
                 done: function(datamap) {
                     datamap.svg.selectAll('.datamaps-subunit').attr('class', function (d) {
                         return 'datamaps-subunit ' + d.id; // allows individual country styling if needed
                     });
-                    datamap.svg.selectAll('.datamaps-background').classed('datamaps-ocean', true); // Apply ocean class
+                    datamap.svg.selectAll('.datamaps-background')
+                        .style('fill', '#b0c4de'); // Directly apply ocean color
                 }
             });
         }
