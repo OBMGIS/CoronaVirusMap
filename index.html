@@ -5,28 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>COVID-19 Tracker</title>
+    <style>
+        /* Add basic styling to enhance visibility */
+        body { margin: 0; font-family: Arial, sans-serif; }
+        #container { width: 100%; height: 90%; }
+        .datamaps-subunit { /* Styling for countries */
+            stroke: #FFF; /* White borders */
+            stroke-width: 1px;
+        }
+        .datamaps-ocean { /* Custom class for ocean styling */
+            fill: #b0c4de; /* Light Steel Blue for oceans */
+        }
+    </style>
 </head>
 <body>
-    <h1 style="margin: 0; padding: 0; border: 0;">
-        Tracking COVID-19 - Updated Live</h1>
-    <h3 style="margin: 0; padding: 0; border: 0;">(Tip: Hover on top of a country to see the number of cases!)</h3>
-  
-    <div id="container" 
-         style="width: 100%; height: 75%;  display: block; position: absolute;  top: 14%;
-                bottom: 5%; left: 0%; right: 5%;"></div>
-  
+    <h1>Tracking COVID-19 - Updated Live</h1>
+    <h3>(Tip: Hover on top of a country to see the number of cases!)</h3>
+    <div id="container"></div>
     <script src="https://d3js.org/d3.v3.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/datamaps/0.5.9/datamaps.all.hires.js"></script>
     <script>
-        // Function to fetch latest COVID-19 data
         async function fetchCovidData() {
             const response = await fetch('https://disease.sh/v3/covid-19/countries');
             const data = await response.json();
             return data;
         }
 
-        // Function to prepare data for Datamap
         function prepareData(covidData) {
             const data = {};
             covidData.forEach(country => {
@@ -38,14 +43,12 @@
             return data;
         }
 
-        // Function to determine fill color based on the number of cases
         function getFillKey(cases) {
             if (cases > 1000000) return 'HIGH';
             if (cases > 100000) return 'MEDIUM';
             return 'LOW';
         }
 
-        // Function to initialize the Datamap
         function initializeMap(data) {
             new Datamap({
                 element: document.getElementById('container'),
@@ -53,7 +56,7 @@
                     HIGH: '#eb0f0c',
                     MEDIUM: '#29dfff',
                     LOW: '#ffeb96',
-                    defaultFill: '#29a329'
+                    defaultFill: '#29a329' // Changed for land
                 },
                 data: data,
                 geographyConfig: {
@@ -62,12 +65,19 @@
                                 'COVID-19 Cases in ' + geo.properties.name,
                                 ': ' + data.numberOfThings,
                                 '</strong></div>'].join('');
-                    }
+                    },
+                    highlightFillColor: '#fc8d59', // Optional: Color when mouse hovers
+                    highlightBorderColor: 'rgba(250, 250, 250, 0.5)'
+                },
+                done: function(datamap) {
+                    datamap.svg.selectAll('.datamaps-subunit').attr('class', function (d) {
+                        return 'datamaps-subunit ' + d.id; // allows individual country styling if needed
+                    });
+                    datamap.svg.selectAll('.datamaps-background').classed('datamaps-ocean', true); // Apply ocean class
                 }
             });
         }
 
-        // Fetch and display the COVID-19 data
         fetchCovidData().then(covidData => {
             const data = prepareData(covidData);
             initializeMap(data);
