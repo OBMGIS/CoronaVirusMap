@@ -31,6 +31,7 @@
             background-color: #f4f4f4;
             padding: 10px;
             box-sizing: border-box;
+            flex-shrink: 0;
         }
         .box {
             flex: 1;
@@ -77,6 +78,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/datamaps/0.5.9/datamaps.all.hires.js"></script>
     <script>
+        let datamap;
+
         async function fetchCovidData() {
             const response = await fetch('https://disease.sh/v3/covid-19/countries');
             const data = await response.json();
@@ -101,7 +104,7 @@
         }
 
         function initializeMap(data) {
-            var datamap = new Datamap({
+            datamap = new Datamap({
                 element: document.getElementById('datamap'),
                 fills: {
                     HIGH: '#eb0f0c',
@@ -133,13 +136,9 @@
         }
 
         function resizeMap() {
-            var container = document.getElementById('datamap');
-            container.innerHTML = ''; // Clear the existing map
-            fetchCovidData().then(covidData => {
-                const data = prepareData(covidData);
-                initializeMap(data);
-                updateDashboard(covidData);
-            });
+            if (datamap) {
+                datamap.resize();
+            }
         }
 
         function updateDashboard(covidData) {
@@ -169,7 +168,11 @@
         window.addEventListener('resize', resizeMap);
 
         document.addEventListener('DOMContentLoaded', () => {
-            resizeMap();
+            fetchCovidData().then(covidData => {
+                const data = prepareData(covidData);
+                initializeMap(data);
+                updateDashboard(covidData);
+            });
         });
     </script>
 </body>
